@@ -162,6 +162,15 @@ p code, li code {
   font-weight: bold;
 }
 
+/* Images */
+.post-content img {
+  display: block;
+  max-width: 100%;
+  height: auto; /* keeps the aspect ratio while max-width shrinks it */
+  margin: 1.5em auto;
+  border-radius: 5px;
+}
+
 /* Tables (rouge uses tables for line numbers, hence the exclusion) */
 .post-content table:not(.rouge-table) {
   display: block; /* so wide tables scroll instead of overflowing the page */

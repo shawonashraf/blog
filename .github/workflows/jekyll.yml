@@ -48,6 +48,17 @@ jobs:
         run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
         env:
           JEKYLL_ENV: production
+      # Compresses the built copies only, so the originals in assets/ stay untouched.
+      - name: Compress images
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq pngquant jpegoptim
+          du -sh _site/assets/images
+          find _site/assets/images -name '*.png' \
+            -exec pngquant --force --skip-if-larger --quality 65-90 --strip --output {} {} \; || true
+          find _site/assets/images \( -name '*.jpg' -o -name '*.jpeg' \) \
+            -exec jpegoptim --max=85 --strip-all --quiet {} +
+          du -sh _site/assets/images
       - name: Upload artifact
         # Automatically uploads an artifact from the './_site' directory by default
         uses: actions/upload-pages-artifact@v3
