@@ -11,10 +11,37 @@
   --code-bg: #f5f5f5;
   --code-color: #333;
   --gutter-color: #888;
+  --muted-color: #666;
+  --rule-color: #d0d0d0;
+  --row-alt-bg: #fafafa;
   --font-body: 'Noto Sans', sans-serif;
   --font-code: 'Fira Code', monospace;
   --max-width: 800px;
 }
+
+/*
+ * Dark theme. Applied either when the OS asks for it and the reader has not
+ * chosen otherwise, or when they explicitly picked dark via the toggle.
+ */
+@mixin dark-palette {
+  --text-color: #e4e4e7;
+  --bg-color: #16181c;
+  --link-color: #7cb3ff;
+  --link-hover-color: #a5c9ff;
+  --border-color: #2e3138;
+  --code-bg: #1e2127;
+  --code-color: #e4e4e7;
+  --gutter-color: #6b7280;
+  --muted-color: #9ca3af;
+  --rule-color: #3a3f47;
+  --row-alt-bg: #1c1f24;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { @include dark-palette; }
+}
+
+:root[data-theme="dark"] { @include dark-palette; }
 
 body {
   font-family: var(--font-body);
@@ -72,6 +99,50 @@ a:hover {
 
 .site-nav a:hover {
   color: var(--link-color);
+}
+
+/* Theme toggle */
+.theme-toggle {
+  margin-left: 20px;
+  padding: 4px;
+  border: none;
+  background: none;
+  color: var(--text-color);
+  cursor: pointer;
+  line-height: 0;
+  border-radius: 5px;
+  vertical-align: middle;
+}
+
+.theme-toggle:hover {
+  color: var(--link-color);
+  background-color: var(--code-bg);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--link-color);
+  outline-offset: 2px;
+}
+
+/* Show the icon for the theme the click would switch *to*. */
+.theme-toggle .icon-moon { display: block; }
+.theme-toggle .icon-sun { display: none; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle {
+    .icon-moon { display: none; }
+    .icon-sun { display: block; }
+  }
+}
+
+:root[data-theme="dark"] .theme-toggle {
+  .icon-moon { display: none; }
+  .icon-sun { display: block; }
+}
+
+:root[data-theme="light"] .theme-toggle {
+  .icon-moon { display: block; }
+  .icon-sun { display: none; }
 }
 
 /* Typography */
@@ -132,7 +203,7 @@ p code, li code {
   padding: 40px 0;
   margin-top: 60px;
   text-align: center;
-  color: #666;
+  color: var(--muted-color);
   font-size: 0.9em;
 }
 
@@ -153,7 +224,7 @@ p code, li code {
 }
 .post-meta {
   font-size: 0.9em;
-  color: #666;
+  color: var(--muted-color);
   margin-bottom: 10px;
 }
 .read-more {
@@ -189,11 +260,11 @@ p code, li code {
 
   th {
     background-color: var(--code-bg);
-    border-bottom: 2px solid #d0d0d0;
+    border-bottom: 2px solid var(--rule-color);
   }
 
   tbody tr:nth-child(even) {
-    background-color: #fafafa;
+    background-color: var(--row-alt-bg);
   }
 }
 
@@ -205,7 +276,7 @@ sup {
 
 .footnotes {
   font-size: 0.9em;
-  color: #666;
+  color: var(--muted-color);
 }
 .footnotes ol {
   padding-left: 1.2em;
@@ -279,3 +350,35 @@ sup {
 .vg { color: #008080 } /* Name.Variable.Global */
 .vi { color: #008080 } /* Name.Variable.Instance */
 .il { color: #009999 } /* Literal.Number.Integer.Long */
+
+/*
+ * Rouge in the dark. The light theme above is dark-on-light, so the deep
+ * navies and reds turn illegible on a dark background; these lift them
+ * without changing which token gets which hue.
+ */
+@mixin rouge-dark {
+  .c, .cm, .c1 { color: #8b949e } /* Comment */
+  .cp, .cs, .bp, .gh, .gu { color: #8b949e } /* Comment.Preproc etc */
+  .err { color: #ffa198; background-color: #3a1d1d } /* Error */
+  .gd { color: #ffdcd7; background-color: #3a1d1d } /* Generic.Deleted */
+  .gi { color: #d3f5e0; background-color: #12261e } /* Generic.Inserted */
+  .gr, .gt { color: #ffa198 } /* Generic.Error, Traceback */
+  .go { color: #9ca3af } /* Generic.Output */
+  .gp, .nn { color: #b0b6c0 } /* Generic.Prompt, Name.Namespace */
+  .kt, .nc, .nt { color: #a5b4fc } /* Keyword.Type, Name.Class, Name.Tag */
+  .nb { color: #79c0ff } /* Name.Builtin */
+  .na, .no, .nv, .vc, .vg, .vi { color: #7ee7c7 } /* Name.Attribute etc */
+  .ne, .nf { color: #ffa198 } /* Name.Exception, Name.Function */
+  .ni { color: #d2a8ff } /* Name.Entity */
+  .m, .mf, .mh, .mi, .mo, .il { color: #79c0ff } /* Literal.Number */
+  .s, .sb, .sc, .sd, .s2, .se, .sh, .si, .sx, .s1 { color: #ff9492 } /* Strings */
+  .sr { color: #7ee787 } /* Literal.String.Regex */
+  .ss { color: #ff9bce } /* Literal.String.Symbol */
+  .w { color: #4a4f57 } /* Text.Whitespace */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { @include rouge-dark; }
+}
+
+:root[data-theme="dark"] { @include rouge-dark; }

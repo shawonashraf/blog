@@ -15,6 +15,21 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+
+    <!--
+      Runs before the body paints so a stored preference never flashes the
+      wrong theme. No stored choice means the CSS media query decides.
+    -->
+    <script>
+        (function () {
+            try {
+                var saved = localStorage.getItem('theme');
+                if (saved === 'dark' || saved === 'light') {
+                    document.documentElement.setAttribute('data-theme', saved);
+                }
+            } catch (e) { /* private mode: fall back to the OS preference */ }
+        })();
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -23,6 +38,19 @@
             <nav class="site-nav">
                 <a href="{{ '/' | relative_url }}">Home</a>
                 <a href="https://shawonashraf.github.io">About</a>
+                <button class="theme-toggle" type="button" aria-label="Switch between light and dark theme">
+                    <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round" aria-hidden="true">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                    <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="5"/>
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                    </svg>
+                </button>
             </nav>
         </div>
     </header>
@@ -52,6 +80,48 @@
             throwOnError: false
         });"></script>
 
+    <!-- Theme toggle -->
+    <script>
+        (function () {
+            var root = document.documentElement;
+
+            // Charts read their colours from the stylesheet, so they follow the
+            // theme without hardcoding a second palette here.
+            window.plotlyThemeLayout = function () {
+                var s = getComputedStyle(root);
+                return {
+                    paper_bgcolor: s.getPropertyValue('--bg-color').trim(),
+                    plot_bgcolor: s.getPropertyValue('--bg-color').trim(),
+                    font: { color: s.getPropertyValue('--text-color').trim() }
+                };
+            };
+
+            function currentTheme() {
+                return root.getAttribute('data-theme')
+                    || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            }
+
+            function repaintCharts() {
+                if (typeof Plotly === 'undefined') return;
+                var theme = window.plotlyThemeLayout();
+                document.querySelectorAll('.plotly-graph-wrapper').forEach(function (el) {
+                    Plotly.relayout(el, {
+                        paper_bgcolor: theme.paper_bgcolor,
+                        plot_bgcolor: theme.plot_bgcolor,
+                        'font.color': theme.font.color
+                    });
+                });
+            }
+
+            document.querySelector('.theme-toggle').addEventListener('click', function () {
+                var next = currentTheme() === 'dark' ? 'light' : 'dark';
+                root.setAttribute('data-theme', next);
+                try { localStorage.setItem('theme', next); } catch (e) { /* private mode */ }
+                repaintCharts();
+            });
+        })();
+    </script>
+
     <!-- Plotly.js -->
     <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
     <script>
@@ -72,7 +142,8 @@
                     wrapper.parentNode.insertBefore(newDiv, wrapper);
                     wrapper.remove();
                     
-                    Plotly.newPlot(newDiv.id, plotlyData.data, plotlyData.layout, plotlyData.config);
+                    var layout = Object.assign({}, plotlyData.layout, window.plotlyThemeLayout());
+                    Plotly.newPlot(newDiv.id, plotlyData.data, layout, plotlyData.config);
                 } catch (e) {
                     console.error("Error parsing Plotly JSON: ", e);
                 }
