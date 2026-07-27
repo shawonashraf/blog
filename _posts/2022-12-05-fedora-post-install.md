@@ -57,9 +57,9 @@ sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-releas
 sudo dnf install xorg-x11-drv-nvidia
 ```
 
-Once installed, reboot and check with nvidia-smi.
+Once installed, reboot and check with `nvidia-smi`.
 
-*Note that this does not come with cudnn or nvcc.* To have those, refer to this guide on [rpmfusion](https://rpmfusion.org/Howto/CUDA).
+*Note that this does not come with `cudnn` or `nvcc`.* To have those, refer to this guide on [rpmfusion](https://rpmfusion.org/Howto/CUDA).
 
 ### Nvidia Drivers with a Secure Boot enabled system
 
@@ -128,11 +128,7 @@ If you've never used this thing yet on other operating systems you should now. Y
 
 ## Display Scaling
 
-Fedora for somewhat reason doesn't support fractional scaling for Gnome. If you have a high resolution display, your best bet is to change the font scaling from the Tweaks app from above. Go *Tweaks &gt; Fonts &gt; Scaling Factor* and pick an appropriate value. The default is 1.00. Depending on your screen resolution, choose the one that you find most comfortable.
-
-![font-scaling.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1614281301640/vY_3BUzbt.png align="left")
-
-\*\*On KDE, \*\*you can do that from Settings &gt; Hardware &gt; Display Configuration &gt; Global Scale.
+Fedora for somewhat reason doesn't support fractional scaling for Gnome. If you have a high resolution display, your best bet is to change the font scaling from the Tweaks app from above. Go *Tweaks &gt; Fonts &gt; Scaling Factor* and pick an appropriate value. The default is 1.00. Depending on your screen resolution, choose the one that you find most comfortable.On KDE, you can do that from `Settings -> Hardware -> Display Configuration -> Global Scale`.
 
 ## Writing Bangla
 
