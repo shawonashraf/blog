@@ -162,6 +162,29 @@ p code, li code {
   font-weight: bold;
 }
 
+/* Footnotes */
+sup {
+  font-size: 0.75em;
+  line-height: 0; /* keep markers from stretching the line */
+}
+
+.footnotes {
+  font-size: 0.9em;
+  color: #666;
+}
+.footnotes ol {
+  padding-left: 1.2em;
+}
+.footnotes li {
+  margin-bottom: 0.5em;
+}
+.footnotes p {
+  margin: 0;
+}
+.reversefootnote {
+  margin-left: 0.4em;
+}
+
 /* Rouge Pygments Minimal Style */
 .c { color: #999988; font-style: italic } /* Comment */
 .err { color: #a61717; background-color: #e3d2d2 } /* Error */
