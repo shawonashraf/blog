@@ -162,6 +162,32 @@ p code, li code {
   font-weight: bold;
 }
 
+/* Tables (rouge uses tables for line numbers, hence the exclusion) */
+.post-content table:not(.rouge-table) {
+  display: block; /* so wide tables scroll instead of overflowing the page */
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  margin-bottom: 1.5em;
+  font-size: 0.9em;
+
+  th, td {
+    border: 1px solid var(--border-color);
+    padding: 8px 12px;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  th {
+    background-color: var(--code-bg);
+    border-bottom: 2px solid #d0d0d0;
+  }
+
+  tbody tr:nth-child(even) {
+    background-color: #fafafa;
+  }
+}
+
 /* Footnotes */
 sup {
   font-size: 0.75em;
