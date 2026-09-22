@@ -7,7 +7,6 @@ tags:
 
 ---
 
-# Understanding LLM Quantisation Methods
 
 Large language models place substantial demands on memory, computation and data movement. Their parameters must be stored, their intermediate representations must be processed, and their attention histories must remain accessible throughout generation. Quantisation reduces these costs by representing selected numerical values with fewer bits. Its practical value is considerable: a model may fit on fewer accelerators, support more concurrent requests, or operate within the memory limits of a personal computer.
 
