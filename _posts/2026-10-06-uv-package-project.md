@@ -33,7 +33,7 @@ pip install torch
 
 ### The problems with `pip`
 
-When you use just `pip` and a requirements file, and then install any package, pip lists the package, it's sub-packages and anything else which you may or may not need. Further more, packages like pytorch often have OS, platform (CUDA,, ROCm, MPS) specific sub packages, which don't get listed if you install it on another platform. For example:
+When you use just `pip` and a requirements file, and then install any package, pip lists the package, it's sub-packages and anything else which you may or may not need. Further more, packages like pytorch often have OS, platform (CUDA, ROCm, MPS) specific sub packages, which don't get listed if you install it on another platform. For example:
 
 
 
@@ -289,7 +289,7 @@ Now, I'm a bit unhappy with the cli, because I have to run it with a long comman
 
 
 
-```tom
+```toml
 [project.scripts]
 waffles = "waffles.main:main"
 ```
@@ -302,7 +302,7 @@ This tells `uv` that inside `waffles` there's a `main` module and it has to call
 
 
 
-```bas
+```bash
 uv run waffles Shawon
 
 # output
