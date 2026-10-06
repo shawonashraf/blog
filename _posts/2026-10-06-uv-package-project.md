@@ -123,7 +123,7 @@ It has created a git repo for you, added a gitignore file, a dummy README, and e
 
 
 
-## `pyporject.toml` 
+## `pyproject.toml` 
 
 
 
