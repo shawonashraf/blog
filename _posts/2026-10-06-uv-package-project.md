@@ -111,7 +111,7 @@ For this article, I went with creating waffles. Assuming you have initialised yo
 
 
 
-![image-20261006173559152](/assets/images/posts/image-20261006173559152.png)
+![image-20261006173559152]({{ '/assets/images/posts/image-20261006173559152.png' | relative_url }})
 
 
 
