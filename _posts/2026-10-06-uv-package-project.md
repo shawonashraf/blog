@@ -11,19 +11,19 @@ tags:
 
 
 
-This article is motivated by a colleague's need to publish the code for his recently published paper as a python package. In software development you have a plethora of options to create python packages from your project. You can do it the human way using `uv`, `poetry` like tools, or do it the hard way by writing your own `setup.py` file, manually defining each and every property for your project in toml files. If you want to take all that hassle, you do you but I prefer the path of least resistance in such matters so I'll just stick with `uv`. Sure, `poetry` might have been an option but I haven't used it after 2024 and in comparison to `uv`, it takes more steps to set up. Nobody deserves those extra steps. Use `uv`. If something better comes along tomorrow, we'll see that tomorrow. 
+This article is motivated by a colleague's need to publish the code for his recently published paper as a python package. In software development you have a plethora of options to create python packages from your project. You can do it the human way using `uv`, `poetry` like tools, or do it the hard way by writing your own `setup.py` file, manually defining each and every property for your project in `toml` files and etc.. 
 
-
+There are real world benefits of using tools over writing everything from scratch. If there is already a tool to do something, the chances are very high that the tool in question has been tested against a lot of use cases and has a higher probability of creating less headaches over something very manual. Also, you’ve to spend time debugging your manual solution.  
 
 
 
 ## Why `uv` and not just `pip`
 
-Good question. `uv` doesn't replace `pip` and is rather an enhanced wrapper over it. When you use `uv`, it calls on `pip` in the background for you. What's the benefit of that you may ask? Let's try to install `torch` via pip and generate a good old `requirements.txt` file. (Forget `conda`, it's been years that pytorch has stopped distributing wheels via anaconda).
+Good question. `uv` doesn't replace `pip` and is rather an enhanced wrapper over it. When you use `uv`, it calls  `pip` in the background for you. What's the benefit of that you may ask? Let's try to install `torch` via pip and generate a good old `requirements.txt` file. (Forget `conda`, it's been years that pytorch has stopped distributing wheels via anaconda).
 
 
 
-> **P.S.*:* No global python interpreters were harmed in the process. Everything was done inside a virtualenv.
+> P.S.: No global python interpreters were harmed in the process. Everything was done inside a virtualenv.
 
 ```bash
 pip install torch
