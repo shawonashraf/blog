@@ -8,6 +8,10 @@ tags:
 
 ---
 
+> Update on October 2026: I have automated the post-installation with ansible. You can check out the [ansible-playbooks](https://github.com/shawonashraf/ansible-playbooks) repository.
+
+
+
 I use Fedora on my workstation to make my home and lab computers consistent with each other. This is a collection post installation steps I had followed. If you plan to use Fedora sometime in the future and are looking for a guide, you can use this one as a reference.
 
 *Please keep in mind that the steps mentioned here work on the current release version, which is 40. Fedora has a 6 months release cycle so it's kinda difficult to write a guide for every new release. However, I've been following these steps since Fedora 33 with very minor changes so these shouldn't differ much in future releases.*
