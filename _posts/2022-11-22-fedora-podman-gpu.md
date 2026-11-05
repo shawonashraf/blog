@@ -9,7 +9,7 @@ tags:
 
 ---
 
-## Okay why not docker though?
+
 
 It's been a while since Fedora has moved away from docker to podman. I'm not going into the nitty gritty details on docker vs podman but if you really want to know more you can read this [article](https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/When-to-use-Docker-vs-Podman-A-developers-perspective).
 
