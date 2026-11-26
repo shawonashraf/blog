@@ -124,3 +124,6 @@ build-iPhoneSimulator/
 # Quarto: posts rendered from _notebooks/ are build output
 _posts/notebooks/
 _notebooks/.quarto/
+
+# Windows download markers created by WSL
+*:Zone.Identifier
