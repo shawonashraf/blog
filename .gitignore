@@ -120,3 +120,7 @@ build-iPhoneSimulator/
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/jekyll,ruby,visualstudiocode,macos
+
+# Quarto: posts rendered from _notebooks/ are build output
+_posts/notebooks/
+_notebooks/.quarto/

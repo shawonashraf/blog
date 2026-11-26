@@ -14,9 +14,18 @@
 #   2. rewrites relative image paths in posts to the published URL, resolved
 #      against the post's own directory, so `assets/x.png`, `./assets/x.png`
 #      and `../assets/images/posts/x.png` all work on the live site.
+#
+# The same applies to posts that Quarto renders from `_notebooks/`: they land
+# in `_posts/notebooks/` with their figures in `<post>_files/` next to them,
+# and those figures are published under `/assets/images/posts/notebooks/`.
 module TyporaAssets
-  SOURCE_DIR = "_posts/assets"
-  OUTPUT_DIR = "/assets/images/posts"
+  # Source directory => published directory, for every place images live.
+  SOURCES = {
+    "_posts/assets" => "/assets/images/posts",
+    "_posts/notebooks" => "/assets/images/posts/notebooks",
+  }.freeze
+  # Rendered posts sit beside their figures; they are posts, not assets.
+  POST_EXTENSIONS = %w[.md .markdown].freeze
 
   class AssetFile < Jekyll::StaticFile
     def initialize(site, base, dir, name, output_dir)
@@ -34,15 +43,22 @@ module TyporaAssets
     priority :high
 
     def generate(site)
-      root = File.join(site.source, SOURCE_DIR)
+      SOURCES.each { |source_dir, output_dir| publish(site, source_dir, output_dir) }
+    end
+
+    private
+
+    def publish(site, source_dir, output_dir)
+      root = File.join(site.source, source_dir)
       return unless File.directory?(root)
 
       Dir.glob("**/*", base: root).sort.each do |rel|
         next unless File.file?(File.join(root, rel))
+        next if POST_EXTENSIONS.include?(File.extname(rel).downcase)
 
         sub = File.dirname(rel)
-        dir = sub == "." ? SOURCE_DIR : File.join(SOURCE_DIR, sub)
-        out = sub == "." ? OUTPUT_DIR : File.join(OUTPUT_DIR, sub)
+        dir = sub == "." ? source_dir : File.join(source_dir, sub)
+        out = sub == "." ? output_dir : File.join(output_dir, sub)
         site.static_files << AssetFile.new(site, site.source, dir, File.basename(rel), out)
       end
     end
@@ -64,8 +80,8 @@ module TyporaAssets
     return nil if rel.start_with?("..")
 
     target =
-      if rel.start_with?("#{SOURCE_DIR}/")
-        rel.sub(SOURCE_DIR, OUTPUT_DIR)
+      if (source_dir = SOURCES.keys.find { |dir| rel.start_with?("#{dir}/") })
+        rel.sub(source_dir, SOURCES[source_dir])
       elsif File.file?(Jekyll::URL.unescape_path(abs.to_s))
         "/#{rel}"
       end

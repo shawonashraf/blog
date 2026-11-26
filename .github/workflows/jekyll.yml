@@ -43,6 +43,17 @@ jobs:
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v6
+      - name: Setup Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: 1.11.9
+      # Turns notebooks in _notebooks/ into posts in _posts/notebooks/.
+      # Uses the outputs saved in each notebook, so no Python is needed here.
+      - name: Render notebooks
+        run: |
+          if compgen -G "_notebooks/*.ipynb" > /dev/null; then
+            quarto render _notebooks
+          fi
       - name: Build with Jekyll
         # Outputs to the './_site' directory by default
         run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"

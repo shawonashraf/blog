@@ -1,0 +1,25 @@
+# Turns every .ipynb in this folder into a Jekyll post.
+#
+# Run `quarto render _notebooks` from the repo root. Each notebook becomes
+# `_posts/notebooks/<name>.md`, with its figures in `<name>_files/` beside it.
+# The output is generated, so it is git-ignored and rebuilt on deploy.
+#
+# The notebook's first cell must be a Raw cell holding the Jekyll front matter
+# (title, date, permalink, tags), just like a markdown post. Name the notebook
+# like a post too: YYYY-MM-DD-slug.ipynb.
+project:
+  type: default
+  output-dir: ../_posts/notebooks
+
+format:
+  gfm:
+    # Keep the front matter as-is so Jekyll reads it.
+    preserve-yaml: true
+    # Emit only the body; the post layout already shows the title and date.
+    template: _body.md
+    # Leave HTML outputs (e.g. pandas tables) as HTML instead of converting them.
+    html-table-processing: none
+
+# Use the outputs saved in the notebook; do not re-run any code.
+execute:
+  enabled: false
